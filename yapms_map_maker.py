@@ -42,8 +42,8 @@ with open(r"yapms_sub_map.json", "w") as f:
             '"margins":[{"color":"#BF1D29"},{"color":"#FF5865"},{"color":"#FF8B98"},{"color":"#CF8980"}]}],"regions":[')
     
     # iterate through every key in yapms_ids
-    # ID_HERE from yapms_ids
-    # num_channels is from counter
+    # ID_HERE       from yapms_ids
+    # NUM_CHANNELS  from counter
     #{"id":"ID_HERE","value":NUM_CHANNELS,"permaVal":NUM_CHANNELS,"locked":false,"permaLocked":false,
     #"disabled":false,"candidates":[{"id":"","count":NUM_CHANNELS,"margin":0}]},
     
@@ -75,8 +75,10 @@ with open(r"yapms_sub_map.json", "w") as f:
         if num_channels == 0:
             disabled = 'true'
         
-        add_to_file += ('{"id":"' + str(yapms_ids[country]) + '","value":' + str(num_channels) + 
-                ',"permaVal":' + str(num_channels) + ',"locked":' + disabled + ',"permaLocked":false,' +
-                '"disabled":' + disabled + ',"candidates":[{"id":"","count":' + str(num_channels) +',"margin":0}]},')
+        nc = str(num_channels)
+        
+        add_to_file += ('{"id":"' + str(yapms_ids[country]) + '","value":' + nc + 
+                ',"permaVal":' + nc + ',"locked":' + disabled + ',"permaLocked":false,' +
+                '"disabled":' + disabled + ',"candidates":[{"id":"","count":' + nc +',"margin":0}]},')
     
     f.write(add_to_file[:-1] + ']}')
