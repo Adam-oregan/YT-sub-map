@@ -3,14 +3,26 @@
 # can pick ANY map that is at country 
 # doesnt split uk, us or canada
 
-# next plans: html page
-
 from collections import Counter
+import easygui
 import csv
 
 countries = []
 
-with open(r'subs_out_test.csv', newline='', encoding="utf8") as csvfile:
+
+
+print("pick completed csv file")
+while(True):
+    file_path = easygui.fileopenbox()
+    print("Selected file:", file_path)
+    if file_path != None:
+        break
+        # when valid path grabbed
+
+
+
+
+with open(file_path, newline='', encoding="utf8") as csvfile:
     reader = csv.reader(csvfile)
     next(reader, None)# skips header
     for row in reader:
