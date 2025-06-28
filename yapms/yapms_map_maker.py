@@ -1,15 +1,29 @@
 from collections import Counter
+import easygui
 import csv
 
 countries = []
 
-with open(r'subs_out_test.csv', newline='', encoding="utf8") as csvfile:
+
+
+print("pick completed csv file")
+while(True):
+    file_path = easygui.fileopenbox()
+    print("Selected file:", file_path)
+    if file_path != None:
+        break
+        # when valid path grabbed
+
+
+
+
+with open(file_path, newline='', encoding="utf8") as csvfile:
     reader = csv.reader(csvfile)
     next(reader, None)# skips header
     for row in reader:
         if row == []:
             break
-        countries.append(row[3])
+        countries.append(row[3]) # 4th in each row
 
 counter = Counter(countries)
 
@@ -18,6 +32,7 @@ for key in toRemove:
     counter.pop(key, None)
 
 print(counter)
+print(len(counter))
 
 #######################################################
 
@@ -35,15 +50,15 @@ with open(r'sub_list_id_match.csv', newline='', encoding="utf8") as csvfile:
 
 with open(r"yapms_sub_map.json", "w") as f:
     f.write('{"map":{"country":"glb","type":"countries","year":"2020078","variant":"blank"},' +
-            '"tossup":{"id":"","name":"Tossup","defaultCount":0,"margins":[{"color":"#cccccc"}]},'
-            '"candidates":[{"id":"29bf84dd-2b0c-4d5d-83fe-f827df9060b8","name":"Democrat","defaultCount":0,'
-            '"margins":[{"color":"#1C408C"},{"color":"#577CCC"},{"color":"#8AAFFF"},{"color":"#949BB3"}]},'
-            '{"id":"5a5a5598-d34f-42ae-aaf5-48e36b197cf8","name":"Republican","defaultCount":0,'
+            '"tossup":{"id":"","name":"Tossup","defaultCount":0,"margins":[{"color":"#cccccc"}]},' +
+            '"candidates":[{"id":"29bf84dd-2b0c-4d5d-83fe-f827df9060b8","name":"Democrat","defaultCount":0,' +
+            '"margins":[{"color":"#1C408C"},{"color":"#577CCC"},{"color":"#8AAFFF"},{"color":"#949BB3"}]},' +
+            '{"id":"5a5a5598-d34f-42ae-aaf5-48e36b197cf8","name":"Republican","defaultCount":0,' +
             '"margins":[{"color":"#BF1D29"},{"color":"#FF5865"},{"color":"#FF8B98"},{"color":"#CF8980"}]}],"regions":[')
     
     # iterate through every key in yapms_ids
-    # ID_HERE       from yapms_ids
-    # NUM_CHANNELS  from counter
+    # ID_HERE from yapms_ids
+    # num_channels is from counter
     #{"id":"ID_HERE","value":NUM_CHANNELS,"permaVal":NUM_CHANNELS,"locked":false,"permaLocked":false,
     #"disabled":false,"candidates":[{"id":"","count":NUM_CHANNELS,"margin":0}]},
     
@@ -75,10 +90,8 @@ with open(r"yapms_sub_map.json", "w") as f:
         if num_channels == 0:
             disabled = 'true'
         
-        nc = str(num_channels)
-        
-        add_to_file += ('{"id":"' + str(yapms_ids[country]) + '","value":' + nc + 
-                ',"permaVal":' + nc + ',"locked":' + disabled + ',"permaLocked":false,' +
-                '"disabled":' + disabled + ',"candidates":[{"id":"","count":' + nc +',"margin":0}]},')
+        add_to_file += ('{"id":"' + str(yapms_ids[country]) + '","value":' + str(num_channels) + 
+                ',"permaVal":' + str(num_channels) + ',"locked":' + disabled + ',"permaLocked":false,' +
+                '"disabled":' + disabled + ',"candidates":[{"id":"","count":' + str(num_channels) +',"margin":0}]},')
     
     f.write(add_to_file[:-1] + ']}')
